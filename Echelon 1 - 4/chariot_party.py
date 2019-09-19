@@ -91,7 +91,8 @@ def configuration():
 
     nbJoueurs = safe_input("Veuillez saisir un nombre entre 1 et 4 inclus: ", int, lambda x: x in range(1, 5))
     nbTours = safe_input("Veuillez saisir un nombre de tour: ", int, lambda x: x > 0)
-    nbCases = safe_input("Veuillez saisir un nombre de cases (multiple de 4 et > à 0): ", int, lambda x: x % 4 == 0 and x >= 4)
+    nbCases = safe_input("Veuillez saisir un nombre de cases (multiple de 4 et > à 0): ", int,
+                         lambda x: x % 4 == 0 and x >= 4)
 
     for i in range(nbCases):
         plateau.append(randint(1, 3))
@@ -146,13 +147,11 @@ def effetCase(players, plateau):
 
 def deplaceJoueur(players, lancer_de, plateau):
     players["position"] += lancer_de
-    while players["position"] >= len(plateau):
-        players["position"] -= len(plateau)
+    if players["position"] >= len(plateau):
+        players["position"] %= len(plateau)
 
     bougeJoueur(players, plateau)
     effetCase(players, plateau)
-    acheteLingot(players)
-    lancer_de = lanceDe(6)
 
 
 def tourJoueur(players, plateau):
@@ -160,27 +159,13 @@ def tourJoueur(players, plateau):
 
 
 def tourDeJeu(players):
-    first_player = 0
-    boucle = 0
-
-    while boucle < len(players):
-        tourJoueur(players[first_player], plateau)
-
-        if first_player + 1 > len(players):
-            first_player = 0
-
-        if boucle > len(players):
-            boucle = 0
-
-        first_player += 1
-        boucle += + 1
+    for player in players:
+        tourJoueur(player, plateau)
 
 
 def partie(nbTours, players):
-    boucle = 0
-    while boucle < nbTours:
+    for i in range(nbTours):
         tourDeJeu(players)
-        boucle += 1
 
 
 # initialisation()
@@ -236,12 +221,12 @@ def afficheClassement(players):
     classement = winner(players)
 
     affichage = '\n'.join(["Numéro %s avec %s lingot(s) d'or et %s charbon(s)" % (
-            player['id'], player['or'], player['charbon']) for player in classement])
+        player['id'], player['or'], player['charbon']) for player in classement])
 
     sauvegardeResultats(affichage)
 
 
-#afficheClassement(players)
+# afficheClassement(players)
 
 
 if __name__ == '__main__':
