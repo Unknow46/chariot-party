@@ -24,7 +24,16 @@ imagesCases=[green,red,blue,yellow]
 
 #Image de l'or
 imageGold = dir+"others/gold.gif"
+#Image de Swap
+imageSwap = dir+"others/swap.gif"
+#Image du voleur
+imageVoleur = dir+"others/voleur.gif"
+
 screen.addshape(imageGold)
+
+screen.addshape(imageSwap)
+
+screen.addshape(imageVoleur)
 
 #Images des joueurs
 imagesJoueurs = []
@@ -36,7 +45,10 @@ for i in range(1,5):
 #Listes de stockage des turtles du plateau
 turtles = []
 perso = []
-turtle_star=turtle.Turtle()
+
+turtle_star = turtle.Turtle()
+turtle_swap = turtle.Turtle()
+turtle_voleur = turtle.Turtle()
 
 def cherchePlace(indice, plateau):
     """
@@ -73,7 +85,7 @@ def creePlateau(plateau):
     :CU: len(plateau) doit être un multiple de 4
     """
     for i in range(len(plateau)):
-        x,y=cherchePlace(i,plateau) 
+        x, y = cherchePlace(i, plateau)
         case = plateau[i]
         if(case.couleur > 0):
             t = turtle.Turtle()
@@ -119,6 +131,7 @@ def effacePlateau():
         t.clear()
         t.ht()
     turtle_star.reset()
+    turtle_swap.reset()
     
 def placeOr(indice, plateau):
     """
@@ -133,7 +146,38 @@ def placeOr(indice, plateau):
     turtle_star.up()
     turtle_star.goto(x,y)
     turtle_star.down()
-    turtle_star.shape(imageGold)                
+    turtle_star.shape(imageGold)
+
+def placeSwap(indice, plateau):
+    """
+    Place l'action swap sur le plateau.
+    :param indice: (int) indice de la case où doit être positionnée la case swap.
+    :param plateau: (list) liste d'entiers correspondant au plateau.
+    :return: (None)
+    :CU: -1 < ind < len(plateau)
+    """
+    x, y = cherchePlace(indice, plateau)
+    turtle_swap.speed(0)
+    turtle_swap.up()
+    turtle_swap.goto(x, y)
+    turtle_swap.down()
+    turtle_swap.shape(imageSwap)
+
+def placeVoleur(indice, plateau):
+    """
+    Place l'action swap sur le plateau.
+    :param indice: (int) indice de la case où doit être positionnée la case swap.
+    :param plateau: (list) liste d'entiers correspondant au plateau.
+    :return: (None)
+    :CU: -1 < ind < len(plateau)
+    """
+    x, y = cherchePlace(indice, plateau)
+    turtle_voleur.speed(0)
+    turtle_voleur.up()
+    turtle_voleur.goto(x, y)
+    turtle_voleur.down()
+    turtle_voleur.shape(imageVoleur)
+
 
 def bougeJoueur(joueur, plateau):
     """
@@ -144,7 +188,7 @@ def bougeJoueur(joueur, plateau):
     :CU: le dictionnaire doit contenir une clé "position" correspondant à une position sur le plateau et une clé "id" correspondant à l'indice du joueur.
     -1 < joueur["position"] < len(plateau)
     """
-    x,y=cherchePlace(joueur.position,plateau)
+    x,y=cherchePlace(joueur.position, plateau)
     t = perso[joueur.id]
     t.up()
     t.goto(x,y)

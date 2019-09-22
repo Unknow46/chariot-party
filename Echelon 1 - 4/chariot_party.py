@@ -146,13 +146,12 @@ def effetCase(players, plateau):
 
 
 def deplaceJoueur(players, lancer_de, plateau):
-    players["position"] += lancer_de
-    if players["position"] >= len(plateau):
-        players["position"] %= len(plateau)
 
-    bougeJoueur(players, plateau)
+    for i in range(lancer_de):
+        players["position"] = (players["position"] + 1) % len(plateau)
+        bougeJoueur(players, plateau)
+        acheteLingot(players)
     effetCase(players, plateau)
-
 
 def tourJoueur(players, plateau):
     deplaceJoueur(players, lanceDe(6), plateau)
