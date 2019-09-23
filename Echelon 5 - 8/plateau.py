@@ -39,6 +39,11 @@ def safe_input(text, in_type, validation=lambda x: True, non_validate_value=None
 class Plateau(FabriqueCase):
 
     def verif_is_int(self, text):
+        """
+        Cette fonction permet de vérifier si l'identifiant du joueur saisie est correcte.
+        :param text: Affichage de la question au joueur actuelle.
+        :return:
+        """
         res = screen.numinput("Interaction", text)
 
         while res not in range(len(self.players)):
