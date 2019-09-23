@@ -7,7 +7,7 @@ dir = "./img/"
 imgSize = 100
 
 #definit la taille de l'ecran
-turtle.setup(1000,1000)
+turtle.setup(800, 800)
 screen = turtle.Screen()
 
 #Images correspondantes aux cases

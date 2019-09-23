@@ -38,6 +38,14 @@ def safe_input(text, in_type, validation=lambda x: True, non_validate_value=None
 
 class Plateau(FabriqueCase):
 
+    def verif_is_int(self, text):
+        res = screen.numinput("Interaction", text)
+
+        while res not in range(len(self.players)):
+            res = screen.numinput("Interaction", text)
+
+        return res
+
     def __init__(self):
         """
         Initialisation du plateau et appelle des fonctions pour son affichage
@@ -132,10 +140,7 @@ class Plateau(FabriqueCase):
                 for element in self.players:
                     print("Joueur %s avec %s charbon et %s or \n" % (element.id, element.charbon, element.n_or))
 
-                joueur_choisis = int(input("Entrer le numéro du joueur avec qui echanger votre chariot: "))
-
-                while joueur_choisis not in range(len(self.players)):
-                    joueur_choisis = int(input("Entrer le numéro du joueur que vous souhaitez voler: "))
+                joueur_choisis = self.verif_is_int("Entrer le numéro du joueur avec qui echanger votre chariot:")
 
                 for player_selected in self.players:
                     if joueur_choisis == player_selected.id:
@@ -168,10 +173,7 @@ class Plateau(FabriqueCase):
                     for element in self.players:
                         print("Joueur %s avec %s charbon et %s or \n" % (element.id, element.charbon, element.n_or))
 
-                    joueur_choisis = int(input("Entrer le numéro du joueur que vous souhaitez voler: "))
-
-                    while joueur_choisis not in range(len(self.players)):
-                        joueur_choisis = int(input("Entrer le numéro du joueur que vous souhaitez voler: "))
+                    joueur_choisis = self.verif_is_int("Entrer le numéro du joueur avec que vous souhaitez voler: ")
 
                     for player_selected in self.players:
                         if joueur_choisis == player_selected.id and player_selected.n_or > 0:
@@ -182,7 +184,6 @@ class Plateau(FabriqueCase):
                 else:
                     print("Aucun joueur ne possède d'or pour le moment ou le joueur sélectionner ne possède pas d'or "
                           ":( ")
-
 
     def acheteLingot(self, player):
         """
